@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 
 namespace GettingReal
 {
-    public class Menu
+    public class Database
     {
-        
     }
 }
