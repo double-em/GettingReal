@@ -8,6 +8,7 @@ namespace GettingReal
 {
     public class Menu
     {
+        Controller control = new Controller();
         public void ShowMenu()
         {
             bool exit = false;
@@ -28,23 +29,23 @@ namespace GettingReal
                 switch (choice)
                 {
                     case "1":
-
+                        CreateProduct();
                         break;
 
                     case "2":
-
+                        UpdateNumberOFProducts();
                         break;
 
                     case "3":
-
+                        RemoveProduct();
                         break;
 
                     case "4":
-
+                        GetAllProducts();
                         break;
 
                     case "5":
-
+                        ProductOrdered();
                         break;
 
                     case "0":
@@ -56,10 +57,73 @@ namespace GettingReal
                         Console.ReadKey(true);
                         break;
                 }
-
-
             }
         }
 
+        void ProductOrdered()
+        {
+            throw new NotImplementedException();
+        }
+
+        void RemoveProduct()
+        {
+            throw new NotImplementedException();
+        }
+
+        void GetAllProducts()
+        {
+            Console.Clear();
+            List<List<string>> products = control.GetAllProducts();
+
+            if (products[0][0] == "No rows found")
+            {
+                Console.WriteLine("Ingen rækker blev fundet");
+            }
+            else
+            {
+                for (int i = 0; i < products.Count; i++)
+                {
+                    for (int j = 0; j < products[i].Count; j++)
+                    {
+                        Console.Write(products[i][j] + "\t");
+                    }
+                    Console.WriteLine();
+                }
+            }
+            Console.WriteLine("Tryk på en knap for at vende tilbage...");
+            Console.ReadKey(true);
+        }
+
+        void UpdateNumberOFProducts()
+        {
+            throw new NotImplementedException();
+        }
+
+        void CreateProduct()
+        {
+            Console.Write("Produkt navn: ");
+            string productName = Console.ReadLine();
+
+            Console.Write("Placering: ");
+            string placement = Console.ReadLine();
+
+            try
+            {
+                if (control.CreateProduct(productName, placement))
+                {
+                    Console.WriteLine("Produktet: " + productName + "blev tilføjet.");
+                }
+                else
+                {
+                    Console.WriteLine("Produktet kunne ikke tilføjes");
+                }
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("Kunne ikke forbinde til databasen...");
+            }
+
+            Console.ReadKey(true);
+        }
     }
 }

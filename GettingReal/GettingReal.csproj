@@ -43,8 +43,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controller.cs" />
-    <Compile Include="Database.cs" />
+    <Compile Include="DatabaseRepo.cs" />
     <Compile Include="Menu.cs" />
+    <Compile Include="ProductsRepo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
