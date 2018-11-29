@@ -8,9 +8,6 @@ namespace GettingReal
 {
     public class Controller
     {
-        public bool CreateProduct()
-        {
-            
-        }
+
     }
 }

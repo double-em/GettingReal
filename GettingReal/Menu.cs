@@ -15,7 +15,7 @@ namespace GettingReal
             {
                 Console.Clear();
                 Console.WriteLine("Lagersystem - Per Olsen Automobiler\n");
-                Console.WriteLine("\t1. Opret produkt:");
+                Console.WriteLine("\t1. Opret produkt");
                 Console.WriteLine("\t2. Indskriv produkt");
                 Console.WriteLine("\t3. Slet produkt");
                 Console.WriteLine("\t4. Tjek lagerbeholding");
