@@ -67,7 +67,10 @@ namespace GettingReal
 
         void RemoveProduct()
         {
-            throw new NotImplementedException();
+            Console.Write("Produkt navn: ");
+            string productName = Console.ReadLine();
+
+
         }
 
         void GetAllProducts()
