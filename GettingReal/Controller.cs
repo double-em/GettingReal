@@ -9,11 +9,11 @@ namespace GettingReal
     public class Controller
     {
         ProductsRepo products = new ProductsRepo();
-        internal bool CreateProduct(string productName, string placement)
+        internal bool CreateProduct(string productName, int amount, string placement)
         {
             try
             {
-                return products.CreateProduct(productName, placement);
+                return products.CreateProduct(productName, amount, placement);
             }
             catch (Exception)
             {

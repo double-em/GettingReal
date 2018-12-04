@@ -73,7 +73,9 @@ namespace GettingReal
         void GetAllProducts()
         {
             Console.Clear();
+            Console.WriteLine();
             List<List<string>> products = control.GetAllProducts();
+
 
             if (products[0][0] == "No rows found")
             {
@@ -85,7 +87,7 @@ namespace GettingReal
                 {
                     for (int j = 0; j < products[i].Count; j++)
                     {
-                        Console.Write(products[i][j] + "\t");
+                        Console.Write(products[i][j] + "\t\t\t");
                     }
                     Console.WriteLine();
                 }
@@ -104,14 +106,18 @@ namespace GettingReal
             Console.Write("Produkt navn: ");
             string productName = Console.ReadLine();
 
+            Console.Write("Antal: ");
+            string amountTemp = Console.ReadLine();
+            int.TryParse(amountTemp, out int amount);
+
             Console.Write("Placering: ");
             string placement = Console.ReadLine();
 
             try
             {
-                if (control.CreateProduct(productName, placement))
+                if (control.CreateProduct(productName, amount, placement))
                 {
-                    Console.WriteLine("Produktet: " + productName + "blev tilføjet.");
+                    Console.WriteLine("Produktet: " + productName + " blev tilføjet.");
                 }
                 else
                 {

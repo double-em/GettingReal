@@ -10,15 +10,16 @@ namespace GettingReal
 {
     public class ProductsRepo : DatabaseRepo
     {
-        internal bool CreateProduct(string productName, string placement)
+        internal bool CreateProduct(string productName, int amount, string placement)
         {
             using (SqlConnection connection = GetDatabaseConnection())
             {
-                using (SqlCommand cmd = new SqlCommand("InsertProduct"))
+                using (SqlCommand cmd = new SqlCommand("spInsertProduct", connection))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add("@ProductName", SqlDbType.NChar).Value = productName;
-                    cmd.Parameters.Add("@Placement", SqlDbType.NChar).Value = placement;
+                    cmd.Parameters.Add("@ReservedelsNavn", SqlDbType.NVarChar).Value = productName;
+                    cmd.Parameters.Add("@Antal", SqlDbType.Int).Value = amount;
+                    cmd.Parameters.Add("@Placering", SqlDbType.NVarChar).Value = placement;
 
                     connection.Open();
 
@@ -39,7 +40,7 @@ namespace GettingReal
         {
             using (SqlConnection connection = GetDatabaseConnection())
             {
-                using (SqlCommand cmd = new SqlCommand("GetAllProducts"))
+                using (SqlCommand cmd = new SqlCommand("spGetAllProducts", connection))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
 

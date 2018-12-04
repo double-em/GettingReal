@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data;
 using System.Data.SqlClient;
+using System.Data.Common;
 
 namespace GettingReal
 {
@@ -14,7 +15,7 @@ namespace GettingReal
 
         public DatabaseRepo()
         {
-            connectionString = "Server=EALSQL1.eal.local;Database=B_DB24_2018;user id=B_STUDENT24;pwd=B_OPENDB24;";
+            connectionString = "Server=EALSQL1.eal.local;Database=B_DB24_2018;User Id=B_STUDENT24;Password=B_OPENDB24;";
         }
 
         protected SqlConnection GetDatabaseConnection()
@@ -33,9 +34,9 @@ namespace GettingReal
                     while (reader.Read())
                     {
                         List<string> list = new List<string>();
-                        foreach (var read in reader)
+                        for (int i = 0; i < reader.FieldCount; i++)
                         {
-                            list.Add(CleanRecord(read));
+                            list.Add(CleanRecord(reader[i]));
                         }
                         products.Add(list);
                     }
@@ -49,9 +50,9 @@ namespace GettingReal
             }
         }
 
-        string CleanRecord(Object record)
+        string CleanRecord(object record)
         {
-            return record.ToString().Replace(" ", string.Empty);
+            return record.ToString();
         }
     }
 }
