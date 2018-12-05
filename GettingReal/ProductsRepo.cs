@@ -36,6 +36,56 @@ namespace GettingReal
             }
         }
 
+        internal bool ProductOrdered(int productID, int orderNumber, string date)
+        {
+            using (SqlConnection connection = GetDatabaseConnection())
+            {
+                using (SqlCommand cmd = new SqlCommand("spProductOrdered", connection))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add("@ID", SqlDbType.Int).Value = productID;
+                    cmd.Parameters.Add("@Ordrenummer", SqlDbType.Int).Value = orderNumber;
+                    cmd.Parameters.Add("@OrdreDato", SqlDbType.NChar).Value = date;
+
+                    connection.Open();
+
+                    int countRowsAffected = cmd.ExecuteNonQuery();
+                    if (countRowsAffected > 0)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+            }
+        }
+
+        internal bool RemoveProduct(int id)
+        {
+            using (SqlConnection connection = GetDatabaseConnection())
+            {
+                using (SqlCommand cmd = new SqlCommand("spRemoveProduct", connection))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add("@ID", SqlDbType.Int).Value = id;
+
+                    connection.Open();
+
+                    int countRowsAffected = cmd.ExecuteNonQuery();
+                    if (countRowsAffected > 0)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+            }
+        }
+
         internal List<List<string>> GetAllPrducts()
         {
             using (SqlConnection connection = GetDatabaseConnection())

@@ -20,7 +20,7 @@ namespace GettingReal
                 Console.WriteLine("\t2. Indskriv produkt");
                 Console.WriteLine("\t3. Slet produkt");
                 Console.WriteLine("\t4. Tjek lagerbeholding");
-                Console.WriteLine("\t5. Indskriv bestilt vare");
+                Console.WriteLine("\t5. Indskriv Ordre");
                 Console.WriteLine("");
                 Console.WriteLine("\t0. Exit");
                 Console.Write("\nVælg et punkt fra menuen: ");
@@ -42,6 +42,8 @@ namespace GettingReal
 
                     case "4":
                         GetAllProducts();
+                        Console.WriteLine("\nTryk på en knap for at vende tilbage...");
+                        Console.ReadKey(true);
                         break;
 
                     case "5":
@@ -62,24 +64,66 @@ namespace GettingReal
 
         void ProductOrdered()
         {
-            throw new NotImplementedException();
+            Console.Write("ID på det eksiterende produkt: ");
+            string productIDTemp = Console.ReadLine();
+            int.TryParse(productIDTemp, out int productID);
+
+            Console.Write("Ordrenummer: ");
+            string orderNumberTemp = Console.ReadLine();
+            int.TryParse(orderNumberTemp, out int orderNumber);
+
+            Console.Write("Ordre dato (DD-MM-YYYY): ");
+            string date = Console.ReadLine();
+
+            if (control.ProductOrdered(productID, orderNumber, date))
+            {
+                Console.WriteLine("Ordre med ordrenummer: " + orderNumber + " blev tilføjet...");
+            }
+            else
+            {
+                Console.WriteLine("Ordren kunne ikke oprettes...");
+            }
+
+            Console.ReadKey(true);
         }
 
         void RemoveProduct()
         {
-            Console.Write("Produkt navn: ");
-            string productName = Console.ReadLine();
+            GetAllProducts();
+            Console.Write("\nVælg produkt ID på produktet som skal fjernes: ");
+            string IDTemp = Console.ReadLine();
+            int.TryParse(IDTemp, out int ID);
 
+            Console.Write("Er du sikker på at produktet med ID: " + ID + " skal fjernes? (Y/N)");
+            string yesNo = Console.ReadLine().ToLower();
 
+            if (yesNo == "y")
+            {
+                if (control.RemoveProduct(ID))
+                {
+                    Console.WriteLine("Produktet med ID: " + ID + " blev fjernet...");
+                    Console.ReadKey(true);
+                }
+                else
+                {
+                    Console.WriteLine("Produktet kunne ikke fjernes...");
+                    Console.ReadKey(true);
+                }
+            }
+            else
+            {
+                Console.WriteLine("Produktet kunne ikke fjernes...");
+                Console.ReadKey(true);
+            }
         }
 
         void GetAllProducts()
         {
             Console.Clear();
-            Console.WriteLine();
+            Console.WriteLine("ID\t" + control.LengthenString("Navn") + "\tAntal\tBestilt\tPlacering");
             List<List<string>> products = control.GetAllProducts();
 
-
+        
             if (products[0][0] == "No rows found")
             {
                 Console.WriteLine("Ingen rækker blev fundet");
@@ -90,13 +134,19 @@ namespace GettingReal
                 {
                     for (int j = 0; j < products[i].Count; j++)
                     {
-                        Console.Write(products[i][j] + "\t\t\t");
+                        if (j == 1)
+                        {
+                            Console.Write(control.LengthenString(products[i][j]) + "\t");
+                        }
+                        else
+                        {
+                            Console.Write(products[i][j] + "\t");
+                        }
+                        
                     }
                     Console.WriteLine();
                 }
             }
-            Console.WriteLine("Tryk på en knap for at vende tilbage...");
-            Console.ReadKey(true);
         }
 
         void UpdateNumberOFProducts()

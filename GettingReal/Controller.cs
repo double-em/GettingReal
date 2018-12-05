@@ -25,5 +25,27 @@ namespace GettingReal
         {
             return products.GetAllPrducts();
         }
+
+        internal bool RemoveProduct(int id)
+        {
+            return products.RemoveProduct(id);
+        }
+
+        internal bool ProductOrdered(int productID, int orderNumber, string date)
+        {
+            return products.ProductOrdered(productID, orderNumber, date);
+        }
+
+        public string LengthenString(string Text)
+        {
+            if (Text.Length <= 32)
+            {
+                for (int i = Text.Length; i <= 32; i++)
+                {
+                    Text += " ";
+                }
+            }
+            return Text;
+        }
     }
 }
