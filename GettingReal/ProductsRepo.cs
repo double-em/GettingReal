@@ -62,6 +62,31 @@ namespace GettingReal
             }
         }
 
+        internal bool UpdateNumberOFProducts(int id, int amount)
+        {
+            using (SqlConnection connection = GetDatabaseConnection())
+            {
+                using (SqlCommand cmd = new SqlCommand("spUpdateNumberOFProducts", connection))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add("@ID", SqlDbType.Int).Value = id;
+                    cmd.Parameters.Add("@Antal", SqlDbType.Int).Value = amount;
+
+                    connection.Open();
+
+                    int countRowsAffected = cmd.ExecuteNonQuery();
+                    if (countRowsAffected > 0)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+            }
+        }
+
         internal bool RemoveProduct(int id)
         {
             using (SqlConnection connection = GetDatabaseConnection())

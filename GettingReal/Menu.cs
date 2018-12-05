@@ -151,7 +151,23 @@ namespace GettingReal
 
         void UpdateNumberOFProducts()
         {
-            throw new NotImplementedException();
+            Console.Write("Indtast ID på produktet: ");
+            string IDTemp = Console.ReadLine();
+            int.TryParse(IDTemp, out int ID);
+
+            Console.Write("Indtast det nye antal: ");
+            string amountTemp = Console.ReadLine();
+            int.TryParse(amountTemp, out int amount);
+
+            if (control.UpdateNumberOFProducts(ID, amount))
+            {
+                Console.WriteLine("Antallet blev opdateret til " + amount + "...");
+            }
+            else
+            {
+                Console.WriteLine("Antallet kunne ikke opdateres...");
+            }
+            Console.ReadKey(true);
         }
 
         void CreateProduct()

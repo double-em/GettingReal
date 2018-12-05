@@ -47,5 +47,10 @@ namespace GettingReal
             }
             return Text;
         }
+
+        internal bool UpdateNumberOFProducts(int id, int amount)
+        {
+            return products.UpdateNumberOFProducts(id, amount);
+        }
     }
 }
