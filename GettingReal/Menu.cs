@@ -15,14 +15,117 @@ namespace GettingReal
             while (!exit)
             {
                 Console.Clear();
-                Console.WriteLine("Lagersystem - Per Olsen Automobiler\n");
-                Console.WriteLine("\t1. Opret produkt");
+                Console.WriteLine("Per Olsen Automobiler - Lagersystem\n");
+                Console.WriteLine("\t1. Bestilling");
+                Console.WriteLine("\t2. Lager");
+                Console.WriteLine("\t3. Reservedele");
+                Console.WriteLine("\n\t0. Afslut");
+                Console.Write("\nVælg et punkt fra menuen: ");
+                string choice = Console.ReadLine();
+
+                switch (choice)
+                {
+                    case "1":
+                        OrderMenu();
+                        break;
+
+                    case "2":
+                        StorageMenu();
+                        break;
+
+                    case "3":
+                        ProductMenu();
+                        break;
+
+                    case "0":
+                        exit = true;
+                        break;
+
+                    default:
+                        Console.WriteLine("Dette er ikke en valgmulighed");
+                        Console.ReadKey(true);
+                        break;
+                }
+            }
+        }
+
+        void OrderMenu()
+        {
+            bool exit = false;
+            while (!exit)
+            {
+                Console.Clear();
+                Console.WriteLine("Per Olsen Automobiler - Bestilling\n");
+                Console.WriteLine("\t1. Indskriv bestilt produkt");
+                Console.WriteLine("\n\t0. Tilbage");
+                Console.Write("\nVælg et punkt fra menuen: ");
+                string choice = Console.ReadLine();
+
+                switch (choice)
+                {
+                    case "1":
+                        ProductOrdered();
+                        break;
+
+                    case "0":
+                        exit = true;
+                        break;
+
+                    default:
+                        Console.WriteLine("Dette er ikke en valgmulighed");
+                        Console.ReadKey(true);
+                        break;
+                }
+            }
+        }
+
+        void StorageMenu()
+        {
+            bool exit = false;
+            while (!exit)
+            {
+                Console.Clear();
+                Console.WriteLine("Per Olsen Automobiler - Lager\n");
+                Console.WriteLine("\t1. Tjek lagerbeholding");
                 Console.WriteLine("\t2. Indskriv produkt");
-                Console.WriteLine("\t3. Slet produkt");
-                Console.WriteLine("\t4. Tjek lagerbeholding");
-                Console.WriteLine("\t5. Indskriv Ordre");
-                Console.WriteLine("");
-                Console.WriteLine("\t0. Exit");
+                Console.WriteLine("\n\t0. Tilbage");
+                Console.Write("\nVælg et punkt fra menuen: ");
+                string choice = Console.ReadLine();
+
+                switch (choice)
+                {
+                    case "1":
+                        GetAllProducts();
+                        Console.WriteLine("\nTryk på en knap for at vende tilbage...");
+                        Console.ReadKey(true);
+                        break;
+
+                    case "2":
+                        UpdateNumberOFProducts();
+                        break;
+
+                    case "0":
+                        exit = true;
+                        break;
+
+                    default:
+                        Console.WriteLine("Dette er ikke en valgmulighed");
+                        Console.ReadKey(true);
+                        break;
+                }
+            }
+        }
+
+        void ProductMenu()
+        {
+            bool exit = false;
+            while (!exit)
+            {
+                Console.Clear();
+                Console.WriteLine("Per Olsen Automobiler - Reservedele\n");
+                Console.WriteLine("\t1. Opret produkt");
+                Console.WriteLine("\t2. Slet produkt");
+                Console.WriteLine("\n\t0. Tilbage");
                 Console.Write("\nVælg et punkt fra menuen: ");
                 string choice = Console.ReadLine();
 
@@ -33,21 +136,7 @@ namespace GettingReal
                         break;
 
                     case "2":
-                        UpdateNumberOFProducts();
-                        break;
-
-                    case "3":
                         RemoveProduct();
-                        break;
-
-                    case "4":
-                        GetAllProducts();
-                        Console.WriteLine("\nTryk på en knap for at vende tilbage...");
-                        Console.ReadKey(true);
-                        break;
-
-                    case "5":
-                        ProductOrdered();
                         break;
 
                     case "0":
