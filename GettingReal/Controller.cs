@@ -3,12 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ProductLib;
 
 namespace GettingReal
 {
     public class Controller
     {
-        ProductsRepo products = new ProductsRepo();
+        private ProductRepo products;
+        private OrderRepo orders;
+
+        public Controller()
+        {
+            products = new ProductRepo();
+            orders = new OrderRepo();
+        }
+
         internal bool CreateProduct(string productName, int amount, string placement)
         {
             try
@@ -23,7 +32,7 @@ namespace GettingReal
 
         internal List<List<string>> GetAllProducts()
         {
-            return products.GetAllPrducts();
+            return products.GetAllProducts();
         }
 
         internal bool RemoveProduct(int id)
@@ -31,26 +40,24 @@ namespace GettingReal
             return products.RemoveProduct(id);
         }
 
-        internal bool ProductOrdered(int productID, int orderNumber, string date)
+        internal bool ProductOrdered(int productId, int orderNumber, string date)
         {
-            return products.ProductOrdered(productID, orderNumber, date);
+            return orders.ProductOrdered(productId, orderNumber, date);
         }
 
-        public string LengthenString(string Text)
+        public string LengthenString(string text)
         {
-            if (Text.Length <= 32)
+            if (text.Length > 32) return text;
+            for (int i = text.Length; i <= 32; i++)
             {
-                for (int i = Text.Length; i <= 32; i++)
-                {
-                    Text += " ";
-                }
+                text += " ";
             }
-            return Text;
+            return text;
         }
 
-        internal bool UpdateNumberOFProducts(int id, int amount)
+        internal bool UpdateNumberOfProducts(int id, int amount)
         {
-            return products.UpdateNumberOFProducts(id, amount);
+            return products.UpdateNumberOfProducts(id, amount);
         }
     }
 }

@@ -6,8 +6,17 @@ using System.Threading.Tasks;
 
 namespace ProductLib
 {
-    class ProductType : ProductRepo
+    internal class ProductType : ProductRepo
     {
+        public string Navn { get; }
+        public string Placering { get; }
+        public int Amount { get; }
 
+        public ProductType(string navn, string placering, int amount)
+        {
+            Navn = navn;
+            Placering = placering;
+            Amount = amount;
+        }
     }
 }

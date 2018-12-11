@@ -11,7 +11,6 @@ namespace GettingReal
         static void Main(string[] args)
         {
             Menu menu = new Menu();
-            menu.ShowMenu();
         }
     }
 }

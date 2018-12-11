@@ -8,7 +8,26 @@ namespace GettingReal
 {
     public class Menu
     {
-        Controller control = new Controller();
+        private Controller control;
+        public Menu()
+        {
+            Console.WriteLine("Forbinder til Database...");
+            try
+            {
+                control = new Controller();
+                Console.WriteLine("Forbundet...");
+                ShowMenu();
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("Kan ikke forbinde til Databasen...");
+                Console.WriteLine("\nKan ikke fortsætte på grund af fejl!");
+                Console.WriteLine("Tryk på vilkårlig knap for at afslutte...");
+                Console.ReadKey(true);
+            }
+            
+        }
+
         public void ShowMenu()
         {
             bool exit = false;
@@ -101,7 +120,7 @@ namespace GettingReal
                         break;
 
                     case "2":
-                        UpdateNumberOFProducts();
+                        UpdateNumberOfProducts();
                         break;
 
                     case "0":
@@ -154,8 +173,8 @@ namespace GettingReal
         void ProductOrdered()
         {
             Console.Write("ID på det eksiterende produkt: ");
-            string productIDTemp = Console.ReadLine();
-            int.TryParse(productIDTemp, out int productID);
+            string productIdTemp = Console.ReadLine();
+            int.TryParse(productIdTemp, out int productId);
 
             Console.Write("Ordrenummer: ");
             string orderNumberTemp = Console.ReadLine();
@@ -164,7 +183,7 @@ namespace GettingReal
             Console.Write("Ordre dato (DD-MM-YYYY): ");
             string date = Console.ReadLine();
 
-            if (control.ProductOrdered(productID, orderNumber, date))
+            if (control.ProductOrdered(productId, orderNumber, date))
             {
                 Console.WriteLine("Ordre med ordrenummer: " + orderNumber + " blev tilføjet...");
             }
@@ -180,17 +199,17 @@ namespace GettingReal
         {
             GetAllProducts();
             Console.Write("\nVælg produkt ID på produktet som skal fjernes: ");
-            string IDTemp = Console.ReadLine();
-            int.TryParse(IDTemp, out int ID);
+            string idTemp = Console.ReadLine();
+            int.TryParse(idTemp, out int id);
 
-            Console.Write("Er du sikker på at produktet med ID: " + ID + " skal fjernes? (Y/N)");
+            Console.Write("Er du sikker på at produktet med ID: " + id + " skal fjernes? (Y/N)");
             string yesNo = Console.ReadLine().ToLower();
 
             if (yesNo == "y")
             {
-                if (control.RemoveProduct(ID))
+                if (control.RemoveProduct(id))
                 {
-                    Console.WriteLine("Produktet med ID: " + ID + " blev fjernet...");
+                    Console.WriteLine("Produktet med ID: " + id + " blev fjernet...");
                     Console.ReadKey(true);
                 }
                 else
@@ -238,17 +257,17 @@ namespace GettingReal
             }
         }
 
-        void UpdateNumberOFProducts()
+        void UpdateNumberOfProducts()
         {
             Console.Write("Indtast ID på produktet: ");
-            string IDTemp = Console.ReadLine();
-            int.TryParse(IDTemp, out int ID);
+            string idTemp = Console.ReadLine();
+            int.TryParse(idTemp, out int id);
 
             Console.Write("Indtast det nye antal: ");
             string amountTemp = Console.ReadLine();
             int.TryParse(amountTemp, out int amount);
 
-            if (control.UpdateNumberOFProducts(ID, amount))
+            if (control.UpdateNumberOfProducts(id, amount))
             {
                 Console.WriteLine("Antallet blev opdateret til " + amount + "...");
             }
