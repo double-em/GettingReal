@@ -12,20 +12,27 @@ namespace ProductLib
     {
         public bool ProductOrdered(int productId, int orderNumber, string date)
         {
-            using (SqlConnection connection = GetDatabaseConnection())
+            try
             {
-                using (SqlCommand cmd = new SqlCommand("spProductOrdered", connection))
+                using (SqlConnection connection = GetDatabaseConnection())
                 {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add("@ID", SqlDbType.Int).Value = productId;
-                    cmd.Parameters.Add("@Ordrenummer", SqlDbType.Int).Value = orderNumber;
-                    cmd.Parameters.Add("@OrdreDato", SqlDbType.NChar).Value = date;
+                    using (SqlCommand cmd = new SqlCommand("spGetOrderedProducts", connection))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@ID", SqlDbType.Int).Value = productId;
+                        cmd.Parameters.Add("@Ordrenummer", SqlDbType.Int).Value = orderNumber;
+                        cmd.Parameters.Add("@OrdreDato", SqlDbType.NChar).Value = date;
 
-                    connection.Open();
+                        connection.Open();
 
-                    int countRowsAffected = cmd.ExecuteNonQuery();
-                    return countRowsAffected > 0;
+                        int countRowsAffected = cmd.ExecuteNonQuery();
+                        return countRowsAffected > 0;
+                    }
                 }
+            }
+            catch (SqlException)
+            {
+                throw new SqlConnectionException();
             }
         }
     }

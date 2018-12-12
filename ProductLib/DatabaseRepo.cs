@@ -21,18 +21,17 @@ namespace ProductLib
             return new SqlConnection(connectionString);
         }
 
-        public bool TestConnection()
+        public void TestConnection()
         {
             using (SqlConnection connection = GetDatabaseConnection())
             {
                 try
                 {
                     connection.Open();
-                    return true;
                 }
                 catch (SqlException)
                 {
-                    return false;
+                    throw new SqlConnectionException();
                 }
             }
         }

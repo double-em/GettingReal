@@ -10,7 +10,7 @@ namespace ProductLib
 {
     public class ProductRepo : DatabaseRepo
     {
-        List<ProductType> products = new List<ProductType>();
+        public List<ProductType> products = new List<ProductType>();
 
         public ProductRepo()
         {
@@ -19,84 +19,110 @@ namespace ProductLib
 
         private void Setup()
         {
-            if (TestConnection())
+            var allProducts = GetAllProducts();
+            foreach (List<string> product in allProducts)
             {
-                var allProducts = GetAllProducts();
-                foreach (var product in allProducts)
+                if (int.TryParse(product[0], out int id) && int.TryParse(product[2], out int amount))
                 {
-                    int.TryParse(product[2], out int amount);
-                    products.Add(new ProductType(product[0], product[1], amount));
+                    products.Add(new ProductType(id, product[1], product[4], amount));
                 }
             }
-            throw new Exception("Can't connect to the Database...");
         }
 
         public bool CreateProduct(string productName, int amount, string placement)
         {
-            using (SqlConnection connection = GetDatabaseConnection())
+            try
             {
-                using (SqlCommand cmd = new SqlCommand("spInsertProduct", connection))
+                using (SqlConnection connection = GetDatabaseConnection())
                 {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add("@ReservedelsNavn", SqlDbType.NVarChar).Value = productName;
-                    cmd.Parameters.Add("@Antal", SqlDbType.Int).Value = amount;
-                    cmd.Parameters.Add("@Placering", SqlDbType.NVarChar).Value = placement;
+                    using (SqlCommand cmd = new SqlCommand("spInsertProduct", connection))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@ReservedelsNavn", SqlDbType.NVarChar).Value = productName;
+                        cmd.Parameters.Add("@Antal", SqlDbType.Int).Value = amount;
+                        cmd.Parameters.Add("@Placering", SqlDbType.NVarChar).Value = placement;
 
-                    connection.Open();
+                        connection.Open();
 
-                    int countRowsAffected = cmd.ExecuteNonQuery();
-                    return countRowsAffected > 0;
+                        int countRowsAffected = cmd.ExecuteNonQuery();
+                        return countRowsAffected > 0;
+                    }
                 }
+            }
+            catch (SqlException)
+            {
+                throw new SqlConnectionException();
             }
         }
 
         public bool UpdateNumberOfProducts(int id, int amount)
         {
-            using (SqlConnection connection = GetDatabaseConnection())
+            try
             {
-                using (SqlCommand cmd = new SqlCommand("spUpdateNumberOFProducts", connection))
+                using (SqlConnection connection = GetDatabaseConnection())
                 {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add("@ID", SqlDbType.Int).Value = id;
-                    cmd.Parameters.Add("@Antal", SqlDbType.Int).Value = amount;
+                    using (SqlCommand cmd = new SqlCommand("spUpdateNumberOFProducts", connection))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@ID", SqlDbType.Int).Value = id;
+                        cmd.Parameters.Add("@Antal", SqlDbType.Int).Value = amount;
 
-                    connection.Open();
+                        connection.Open();
 
-                    int countRowsAffected = cmd.ExecuteNonQuery();
-                    return countRowsAffected > 0;
+                        int countRowsAffected = cmd.ExecuteNonQuery();
+                        return countRowsAffected > 0;
+                    }
                 }
+            }
+            catch (SqlException)
+            {
+                throw new SqlConnectionException();
             }
         }
 
         public bool RemoveProduct(int id)
         {
-            using (SqlConnection connection = GetDatabaseConnection())
+            try
             {
-                using (SqlCommand cmd = new SqlCommand("spRemoveProduct", connection))
+                using (SqlConnection connection = GetDatabaseConnection())
                 {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add("@ID", SqlDbType.Int).Value = id;
+                    using (SqlCommand cmd = new SqlCommand("spRemoveProduct", connection))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@ID", SqlDbType.Int).Value = id;
 
-                    connection.Open();
+                        connection.Open();
 
-                    int countRowsAffected = cmd.ExecuteNonQuery();
-                    return countRowsAffected > 0;
+                        int countRowsAffected = cmd.ExecuteNonQuery();
+                        return countRowsAffected > 0;
+                    }
                 }
+            }
+            catch (SqlException)
+            {
+                throw new SqlConnectionException();
             }
         }
 
         public List<List<string>> GetAllProducts()
         {
-            using (SqlConnection connection = GetDatabaseConnection())
+            try
             {
-                using (SqlCommand cmd = new SqlCommand("spGetAllProducts", connection))
+                using (SqlConnection connection = GetDatabaseConnection())
                 {
-                    cmd.CommandType = CommandType.StoredProcedure;
+                    using (SqlCommand cmd = new SqlCommand("spGetAllProducts", connection))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
 
-                    connection.Open();
+                        connection.Open();
 
-                    return ListResult(cmd);
+                        return ListResult(cmd);
+                    }
                 }
+            }
+            catch (SqlException)
+            {
+                throw new SqlConnectionException();
             }
         }
     }

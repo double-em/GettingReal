@@ -11,19 +11,23 @@ namespace GettingReal
         private Controller control;
         public Menu()
         {
-            Console.WriteLine("Forbinder til Database...");
+            Console.WriteLine("Sætter op...");
             try
             {
                 control = new Controller();
-                Console.WriteLine("Forbundet...");
+                Console.WriteLine("Færdig...");
                 ShowMenu();
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                Console.WriteLine("Kan ikke forbinde til Databasen...");
+                Console.WriteLine(e.Message);
                 Console.WriteLine("\nKan ikke fortsætte på grund af fejl!");
-                Console.WriteLine("Tryk på vilkårlig knap for at afslutte...");
-                Console.ReadKey(true);
+                Console.Write("Vil du åbne fejlloggen? (Y/N): ");
+                string choice = Console.ReadLine().ToLower();
+                if (choice == "y")
+                {
+                    System.Diagnostics.Process.Start("errorLog.txt");
+                }
             }
             
         }

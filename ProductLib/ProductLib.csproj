@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DatabaseRepo.cs" />
+    <Compile Include="SqlConnectionException.cs" />
     <Compile Include="Order.cs" />
     <Compile Include="OrderRepo.cs" />
     <Compile Include="ProductRepo.cs" />

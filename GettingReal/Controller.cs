@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,8 +15,27 @@ namespace GettingReal
 
         public Controller()
         {
-            products = new ProductRepo();
-            orders = new OrderRepo();
+            try
+            {
+                products = new ProductRepo();
+                orders = new OrderRepo();
+            }
+            catch (SqlConnectionException e)
+            {
+                WriteErrorToLog(e);
+                throw e;
+            }
+        }
+
+        void WriteErrorToLog(Exception e)
+        {
+            string path = "errorLog.txt";
+            using (StreamWriter writer = new StreamWriter(path, true))
+            {
+                writer.WriteLine(DateTime.Now.ToString());
+                writer.WriteLine(e.ToString());
+                writer.WriteLine();
+            }
         }
 
         internal bool CreateProduct(string productName, int amount, string placement)
