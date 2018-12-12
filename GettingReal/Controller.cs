@@ -18,7 +18,7 @@ namespace GettingReal
             try
             {
                 products = new ProductRepo();
-                orders = new OrderRepo();
+                orders = new OrderRepo(products.products);
             }
             catch (SqlConnectionException e)
             {
@@ -52,7 +52,12 @@ namespace GettingReal
 
         internal List<List<string>> GetAllProducts()
         {
-            return products.GetAllProducts();
+            List<List<string>> finalList = new List<List<string>>();
+            foreach (var product in products.products)
+            {
+                finalList.Add(product.ToList());
+            }
+            return finalList;
         }
 
         internal bool RemoveProduct(int id)

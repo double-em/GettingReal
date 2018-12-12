@@ -20,5 +20,15 @@ namespace ProductLib
             Amount = amount;
             Id = id;
         }
+
+        public List<string> ToList()
+        {
+            List<string> finalList = new List<string>();
+            finalList.Add(Id.ToString());
+            finalList.Add(Navn);
+            finalList.Add(Placering);
+            finalList.Add(Amount.ToString());
+            return finalList;
+        }
     }
 }
