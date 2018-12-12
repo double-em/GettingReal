@@ -16,7 +16,7 @@ namespace ProductLib
             connectionString = "Server=EALSQL1.eal.local;Database=B_DB24_2018;User Id=B_STUDENT24;Password=B_OPENDB24;";
         }
 
-        protected SqlConnection GetDatabaseConnection()
+        public SqlConnection GetDatabaseConnection()
         {
             return new SqlConnection(connectionString);
         }
@@ -36,7 +36,7 @@ namespace ProductLib
             }
         }
 
-        protected List<List<string>> ListResult(SqlCommand cmd)
+        public List<List<string>> ListResult(SqlCommand cmd)
         {
             using (SqlDataReader reader = cmd.ExecuteReader())
             {

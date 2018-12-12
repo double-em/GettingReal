@@ -6,16 +6,24 @@ using System.Threading.Tasks;
 
 namespace ProductLib
 {
-    class Order : OrderRepo
+    public class Order
     {
         List<ProductType> products = new List<ProductType>();
         public int OrderId { get; }
         public bool Status { get; }
 
-        public Order(int orderId, bool status)
+        public string Dato { get; }
+
+        public Order(int orderId, string dato, bool status)
         {
             OrderId = orderId;
+            Dato = dato;
             Status = status;
+        }
+
+        public void AddProduct(ProductType product)
+        {
+            products.Add(product);
         }
     }
 

@@ -29,6 +29,18 @@ namespace ProductLib
             }
         }
 
+        public ProductType GetProduct(int id)
+        {
+            foreach (ProductType p in products)
+            {
+                if (p.Id == id)
+                {
+                    return p;
+                }
+            }
+            return null;
+        }
+
         public bool CreateProduct(string productName, int amount, string placement)
         {
             try

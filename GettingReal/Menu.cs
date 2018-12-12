@@ -118,7 +118,7 @@ namespace GettingReal
                 switch (choice)
                 {
                     case "1":
-                        GetAllProducts();
+                        ShowAllProducts();
                         Console.WriteLine("\nTryk på en knap for at vende tilbage...");
                         Console.ReadKey(true);
                         break;
@@ -201,7 +201,7 @@ namespace GettingReal
 
         void RemoveProduct()
         {
-            GetAllProducts();
+            ShowAllProducts();
             Console.Write("\nVælg produkt ID på produktet som skal fjernes: ");
             string idTemp = Console.ReadLine();
             int.TryParse(idTemp, out int id);
@@ -229,7 +229,7 @@ namespace GettingReal
             }
         }
 
-        void GetAllProducts()
+        void ShowAllProducts()
         {
             Console.Clear();
             Console.WriteLine("ID\t" + control.LengthenString("Navn") + "\tAntal\tBestilt\tPlacering");
