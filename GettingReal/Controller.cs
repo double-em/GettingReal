@@ -63,5 +63,10 @@ namespace GettingReal
         {
             return products.UpdateNumberOfProducts(id, amount);
         }
+
+        public List<ProductType> SearchProducts(string searched)
+        {
+            return products.SearchProducts(searched);
+        }
     }
 }

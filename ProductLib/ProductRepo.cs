@@ -148,5 +148,19 @@ namespace ProductLib
                 throw new SqlConnectionException();
             }
         }
+
+        public List<ProductType> SearchProducts(string searched)
+        {
+            List<ProductType> searchedList = new List<ProductType>();
+            foreach (ProductType p in products)
+            {
+                searched = searched.ToLower();
+                if (p.Id.ToString().StartsWith(searched) || p.Navn.ToLower().Contains(searched))
+                {
+                        searchedList.Add(p);
+                }
+            }
+            return searchedList;
+        }
     }
 }

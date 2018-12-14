@@ -111,7 +111,8 @@ namespace GettingReal
                 Console.Clear();
                 Console.WriteLine("Per Olsen Automobiler - Lager\n");
                 Console.WriteLine("\t1. Tjek lagerbeholding");
-                Console.WriteLine("\t2. Opdater produkt antal");
+                Console.WriteLine("\t2. Søg Lager");
+                Console.WriteLine("\t3. Opdater produkt antal");
                 Console.WriteLine("\n\t0. Tilbage");
                 Console.Write("\nVælg et punkt fra menuen: ");
                 string choice = Console.ReadLine();
@@ -125,6 +126,10 @@ namespace GettingReal
                         break;
 
                     case "2":
+                        SearchProducts();
+                        break;
+
+                    case "3":
                         UpdateNumberOfProducts();
                         break;
 
@@ -287,6 +292,40 @@ namespace GettingReal
             }
 
             Console.ReadKey(true);
+        }
+
+        private void SearchProducts()
+        {
+            string searched = "Ingenting";
+
+            while (true)
+            {
+                Console.Clear();
+                Console.WriteLine("Viser resultat for: " + "'" + searched + "'");
+                Console.WriteLine("ID\t" + Utility.LengthenString("Navn") + "\tAntal\tBestilt\tPlacering");
+
+                if (searched == "0")
+                {
+                    break;
+                }
+
+                if (searched != "Ingenting")
+                {
+                    List<ProductType> searchedProducts = control.SearchProducts(searched);
+                    if (searchedProducts.Count > 0)
+                    {
+                        foreach (ProductType p in searchedProducts)
+                        {
+                            Console.WriteLine(p.ToString());
+                        }
+                    }
+                    else Console.WriteLine("Fandt ikke noget...");
+                    
+                }
+                
+                Console.Write("\n\nIndtast starten af et ID eller en del af et navn (Tast '0' for afslut): ");
+                searched = Console.ReadLine();
+            }
         }
     }
 }
