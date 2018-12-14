@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ProductLib;
 
 namespace GettingReal
 {
@@ -110,7 +111,7 @@ namespace GettingReal
                 Console.Clear();
                 Console.WriteLine("Per Olsen Automobiler - Lager\n");
                 Console.WriteLine("\t1. Tjek lagerbeholding");
-                Console.WriteLine("\t2. Indskriv produkt");
+                Console.WriteLine("\t2. Opdater produkt antal");
                 Console.WriteLine("\n\t0. Tilbage");
                 Console.Write("\nVælg et punkt fra menuen: ");
                 string choice = Console.ReadLine();
@@ -232,33 +233,13 @@ namespace GettingReal
         void ShowAllProducts()
         {
             Console.Clear();
-            Console.WriteLine("ID\t" + control.LengthenString("Navn") + "\tAntal\tBestilt\tPlacering");
-            List<List<string>> products = control.GetAllProducts();
+            Console.WriteLine("ID\t" + Utility.LengthenString("Navn") + "\tAntal\tBestilt\tPlacering");
+            List<ProductType> products = control.GetAllProducts();
 
-        
-            if (products[0][0] == "No rows found")
+            foreach (ProductType p in products)
             {
-                Console.WriteLine("Ingen rækker blev fundet");
-            }
-            else
-            {
-                for (int i = 0; i < products.Count; i++)
-                {
-                    for (int j = 0; j < products[i].Count; j++)
-                    {
-                        if (j == 1)
-                        {
-                            Console.Write(control.LengthenString(products[i][j]) + "\t");
-                        }
-                        else
-                        {
-                            Console.Write(products[i][j] + "\t");
-                        }
-                        
-                    }
-                    Console.WriteLine();
-                }
-            }
+                Console.WriteLine(p.ToString());
+            } 
         }
 
         void UpdateNumberOfProducts()
@@ -296,18 +277,13 @@ namespace GettingReal
 
             try
             {
-                if (control.CreateProduct(productName, amount, placement))
-                {
-                    Console.WriteLine("Produktet: " + productName + " blev tilføjet.");
-                }
-                else
-                {
-                    Console.WriteLine("Produktet kunne ikke tilføjes");
-                }
+                control.CreateProduct(productName, amount, placement);
+                Console.WriteLine("Produktet: " + productName + " blev tilføjet.");
             }
-            catch (Exception)
+            catch (SqlConnectionException)
             {
                 Console.WriteLine("Kunne ikke forbinde til databasen...");
+                Console.WriteLine("Produktet kunne ikke tilføjes");
             }
 
             Console.ReadKey(true);

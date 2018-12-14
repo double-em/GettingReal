@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,25 +9,22 @@ namespace ProductLib
     {
         public int Id { get; }
         public string Navn { get; }
+        public int Amount { get; set; }
+        public int Bestilt { get; set; }
         public string Placering { get; }
-        public int Amount { get; }
 
-        public ProductType(int id, string navn, string placering, int amount)
+        public ProductType(int id, string navn, string placering, int amount, int bestilt = 0)
         {
             Navn = navn;
             Placering = placering;
             Amount = amount;
+            Bestilt = bestilt;
             Id = id;
         }
 
-        public List<string> ToList()
+        public override string ToString()
         {
-            List<string> finalList = new List<string>();
-            finalList.Add(Id.ToString());
-            finalList.Add(Navn);
-            finalList.Add(Placering);
-            finalList.Add(Amount.ToString());
-            return finalList;
+            return Id + "\t" + Utility.LengthenString(Navn) + "\t" + Amount + "\t" + Bestilt + "\t" + Placering;
         }
     }
 }
