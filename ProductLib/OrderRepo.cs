@@ -21,9 +21,9 @@ namespace ProductLib
             var orderedProducts = GetOrderedProducts();
             foreach (List<string> o in orderedProducts)
             {
-                if (int.TryParse(o[0], out int id) && bool.TryParse(o[2], out bool status))
+                if (int.TryParse(o[0], out int id) && bool.TryParse(o[2], out bool aktiv))
                 {
-                    orders.Add(new Order(id, o[1], status));
+                    orders.Add(new Order(id, o[1], aktiv));
                 }
             }
 
@@ -63,7 +63,7 @@ namespace ProductLib
             }
         }
 
-        public bool ProductOrdered(int productId, int orderNumber, string date)
+        public bool ProductOrdered(ProductType product, int orderNumber, string date)
         {
             try
             {
@@ -72,14 +72,19 @@ namespace ProductLib
                     using (SqlCommand cmd = new SqlCommand("spProductOrdered", connection))
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.Add("@ID", SqlDbType.Int).Value = productId;
+                        cmd.Parameters.Add("@ID", SqlDbType.Int).Value = product.Id;
                         cmd.Parameters.Add("@Ordrenummer", SqlDbType.Int).Value = orderNumber;
                         cmd.Parameters.Add("@OrdreDato", SqlDbType.NChar).Value = date;
 
                         connection.Open();
 
                         int countRowsAffected = cmd.ExecuteNonQuery();
-                        return countRowsAffected > 0;
+                        if (countRowsAffected == 0) return false;
+                        Order order = new Order(orderNumber, date, true);
+                        order.AddProduct(product);
+                        product.Bestilt++;
+                        orders.Add(order);
+                        return true;
                     }
                 }
             }

@@ -10,15 +10,15 @@ namespace ProductLib
     {
         List<ProductType> products = new List<ProductType>();
         public int OrderId { get; }
-        public bool Status { get; }
+        public bool Aktiv { get; }
 
         public string Dato { get; }
 
-        public Order(int orderId, string dato, bool status)
+        public Order(int orderId, string dato, bool aktiv)
         {
             OrderId = orderId;
             Dato = dato;
-            Status = status;
+            Aktiv = aktiv;
         }
 
         public void AddProduct(ProductType product)
