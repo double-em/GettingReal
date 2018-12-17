@@ -309,7 +309,7 @@ namespace GettingReal
                     break;
                 }
 
-                if (searched != "Ingenting")
+                if (searched != "Ingenting" && searched != "")
                 {
                     List<ProductType> searchedProducts = control.SearchProducts(searched);
                     if (searchedProducts.Count > 0)
@@ -320,7 +320,7 @@ namespace GettingReal
                         }
                     }
                     else Console.WriteLine("Fandt ikke noget...");
-                    
+
                 }
                 
                 Console.Write("\n\nIndtast starten af et ID eller en del af et navn (Tast '0' for afslut): ");

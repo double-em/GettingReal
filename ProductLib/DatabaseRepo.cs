@@ -36,7 +36,7 @@ namespace ProductLib
             }
         }
 
-        public List<List<string>> ListResult(SqlCommand cmd)
+        protected List<List<string>> ListResult(SqlCommand cmd)
         {
             using (SqlDataReader reader = cmd.ExecuteReader())
             {
