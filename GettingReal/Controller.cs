@@ -18,7 +18,7 @@ namespace GettingReal
             try
             {
                 products = new ProductRepo();
-                orders = new OrderRepo(products.products);
+                orders = new OrderRepo();
             }
             catch (SqlConnectionException e)
             {

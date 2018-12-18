@@ -11,7 +11,7 @@ namespace ProductLib
     public class OrderRepo : DatabaseRepo
     {
         List<Order> orders = new List<Order>();
-        public OrderRepo(List<ProductType> products)
+        public OrderRepo()
         {
             Setup();
         }

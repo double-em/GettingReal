@@ -62,7 +62,8 @@ namespace ProductLib
 
                         var list = ListResult(cmd)[0][0];
                         int.TryParse(list, out int ID);
-                        products.Add(new ProductType(ID, productName, placement, amount));
+                        ProductType newProduct = new ProductType(ID, productName, placement, amount);
+                        products.Add(newProduct);
                     }
                 }
             }
@@ -151,16 +152,16 @@ namespace ProductLib
 
         public List<ProductType> SearchProducts(string searched)
         {
-            List<ProductType> searchedList = new List<ProductType>();
+            List<ProductType> resultList = new List<ProductType>();
             foreach (ProductType p in products)
             {
                 searched = searched.ToLower();
                 if (p.Id.ToString().StartsWith(searched) || p.Navn.ToLower().Contains(searched))
                 {
-                        searchedList.Add(p);
+                        resultList.Add(p);
                 }
             }
-            return searchedList;
+            return resultList;
         }
     }
 }
