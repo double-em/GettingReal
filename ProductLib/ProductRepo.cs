@@ -22,9 +22,13 @@ namespace ProductLib
             var allProducts = GetAllProducts();
             foreach (List<string> product in allProducts)
             {
-                if (int.TryParse(product[0], out int id) && int.TryParse(product[2], out int amount))
+                bool idParse = int.TryParse(product[0], out int id);
+                bool amountParse = int.TryParse(product[2], out int amount);
+                bool orderedParse = int.TryParse(product[3], out int ordered);
+
+                if (idParse && amountParse && orderedParse)
                 {
-                    products.Add(new ProductType(id, product[1], product[4], amount));
+                    products.Add(new ProductType(id, product[1], product[4], amount, ordered));
                 }
             }
         }
@@ -41,7 +45,7 @@ namespace ProductLib
             return null;
         }
 
-        public bool CreateProduct(string productName, int amount, string placement)
+        public void CreateProduct(string productName, int amount, string placement)
         {
             try
             {
@@ -56,8 +60,9 @@ namespace ProductLib
 
                         connection.Open();
 
-                        int countRowsAffected = cmd.ExecuteNonQuery();
-                        return countRowsAffected > 0;
+                        var list = ListResult(cmd)[0][0];
+                        int.TryParse(list, out int ID);
+                        products.Add(new ProductType(ID, productName, placement, amount));
                     }
                 }
             }
@@ -82,7 +87,9 @@ namespace ProductLib
                         connection.Open();
 
                         int countRowsAffected = cmd.ExecuteNonQuery();
-                        return countRowsAffected > 0;
+                        if (countRowsAffected == 0) return false;
+                        GetProduct(id).Amount = amount;
+                        return true;
                     }
                 }
             }
@@ -106,7 +113,11 @@ namespace ProductLib
                         connection.Open();
 
                         int countRowsAffected = cmd.ExecuteNonQuery();
-                        return countRowsAffected > 0;
+
+                        // Inverted If Statement
+                        if (countRowsAffected == 0) return false;
+                        products.Remove(GetProduct(id));
+                        return true;
                     }
                 }
             }
@@ -136,6 +147,20 @@ namespace ProductLib
             {
                 throw new SqlConnectionException();
             }
+        }
+
+        public List<ProductType> SearchProducts(string searched)
+        {
+            List<ProductType> searchedList = new List<ProductType>();
+            foreach (ProductType p in products)
+            {
+                searched = searched.ToLower();
+                if (p.Id.ToString().StartsWith(searched) || p.Navn.ToLower().Contains(searched))
+                {
+                        searchedList.Add(p);
+                }
+            }
+            return searchedList;
         }
     }
 }

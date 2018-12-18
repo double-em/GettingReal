@@ -38,26 +38,14 @@ namespace GettingReal
             }
         }
 
-        internal bool CreateProduct(string productName, int amount, string placement)
+        internal void CreateProduct(string productName, int amount, string placement)
         {
-            try
-            {
-                return products.CreateProduct(productName, amount, placement);
-            }
-            catch (Exception)
-            {
-                throw new Exception("Can't connect to the Database");
-            }
+            products.CreateProduct(productName, amount, placement);
         }
 
-        internal List<List<string>> GetAllProducts()
+        internal List<ProductType> GetAllProducts()
         {
-            List<List<string>> finalList = new List<List<string>>();
-            foreach (var product in products.products)
-            {
-                finalList.Add(product.ToList());
-            }
-            return finalList;
+            return products.products;
         }
 
         internal bool RemoveProduct(int id)
@@ -67,22 +55,18 @@ namespace GettingReal
 
         internal bool ProductOrdered(int productId, int orderNumber, string date)
         {
-            return orders.ProductOrdered(productId, orderNumber, date);
-        }
-
-        public string LengthenString(string text)
-        {
-            if (text.Length > 32) return text;
-            for (int i = text.Length; i <= 32; i++)
-            {
-                text += " ";
-            }
-            return text;
+            ProductType product = products.GetProduct(productId);
+            return orders.ProductOrdered(product, orderNumber, date);
         }
 
         internal bool UpdateNumberOfProducts(int id, int amount)
         {
             return products.UpdateNumberOfProducts(id, amount);
+        }
+
+        public List<ProductType> SearchProducts(string searched)
+        {
+            return products.SearchProducts(searched);
         }
     }
 }
