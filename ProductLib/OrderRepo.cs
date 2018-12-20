@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,23 +11,72 @@ namespace ProductLib
 {
     public class OrderRepo : DatabaseRepo
     {
-        List<Order> orders = new List<Order>();
-        public OrderRepo()
+        public List<Order> orders = new List<Order>();
+        public OrderRepo(List<ProductType> productsList)
         {
-            Setup();
+            Setup(productsList);
         }
 
-        public void Setup()
+        public void Setup(List<ProductType> productsList)
         {
             var orderedProducts = GetOrderedProducts();
             foreach (List<string> o in orderedProducts)
             {
                 if (int.TryParse(o[0], out int id) && bool.TryParse(o[2], out bool aktiv))
                 {
-                    orders.Add(new Order(id, o[1], aktiv));
+                    Order order = new Order(id, o[1], aktiv);
+                    orders.Add(order);
+                    List<ProductType> products = GetProductsRelatedToOrder(id, productsList);
+                    foreach (ProductType product in products)
+                    {
+                        order.AddProduct(product);
+                    }
                 }
             }
 
+        }
+
+        private List<ProductType> GetProductsRelatedToOrder(int orderId, List<ProductType> productsList)
+        {
+            try
+            {
+                using (SqlConnection connection = GetDatabaseConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand("spGetOrderRelatedProducts", connection))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        cmd.Parameters.Add("@ID", SqlDbType.Int).Value = orderId;
+
+                        connection.Open();
+
+                        List<List<string>> list =  ListResult(cmd);
+                        List<int> ids = new List<int>();
+                        for (int i = 0; i < list.Count; i++)
+                        {
+                            int.TryParse(list[i][0], out int idResult);
+                            ids.Add(idResult);
+                        }
+
+                        List<ProductType> resultList = new List<ProductType>();
+                        foreach (ProductType p in productsList)
+                        {
+                            foreach (int id in ids)
+                            {
+                                if (p.Id == id)
+                                {
+                                    resultList.Add(p);
+                                }
+                            }
+                        }
+                        return resultList;
+                    }
+                }
+            }
+            catch (SqlException)
+            {
+                throw new SqlConnectionException();
+            }
         }
 
         public Order GetOrder(int id)

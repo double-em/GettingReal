@@ -18,7 +18,7 @@ namespace GettingReal
             try
             {
                 products = new ProductRepo();
-                orders = new OrderRepo();
+                orders = new OrderRepo(products.products);
             }
             catch (SqlConnectionException e)
             {
@@ -67,6 +67,11 @@ namespace GettingReal
         public List<ProductType> SearchProducts(string searched)
         {
             return products.SearchProducts(searched);
+        }
+
+        public List<Order> GetOrders()
+        {
+            return orders.orders;
         }
     }
 }

@@ -8,7 +8,7 @@ namespace ProductLib
 {
     public class Order
     {
-        List<ProductType> products = new List<ProductType>();
+        public List<ProductType> products = new List<ProductType>();
         public int OrderId { get; }
         public bool Aktiv { get; }
 

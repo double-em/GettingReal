@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using ProductLib;
@@ -81,6 +82,7 @@ namespace GettingReal
                 Console.Clear();
                 Console.WriteLine("Per Olsen Automobiler - Bestilling\n");
                 Console.WriteLine("\t1. Indskriv bestilt produkt");
+                Console.WriteLine("\t2. Se aktive ordre");
                 Console.WriteLine("\n\t0. Tilbage");
                 Console.Write("\nVælg et punkt fra menuen: ");
                 string choice = Console.ReadLine();
@@ -89,6 +91,12 @@ namespace GettingReal
                 {
                     case "1":
                         ProductOrdered();
+                        break;
+
+                    case "2":
+                        ActiveOrders();
+                        Console.WriteLine("\nTryk på en knap for at vende tilbage...");
+                        Console.ReadKey(true);
                         break;
 
                     case "0":
@@ -177,6 +185,22 @@ namespace GettingReal
                         Console.ReadKey(true);
                         break;
                 }
+            }
+        }
+
+        void ActiveOrders()
+        {
+            Console.Clear();
+            Console.WriteLine("ID\t" + Utility.LengthenString("Reservedelsnavn") + "\tOrdre Dato");
+            List<Order> orders = control.GetOrders();
+            foreach (Order o in orders)
+            {
+                Console.WriteLine(o.OrderId + "\t" + Utility.LengthenString(o.products[0].Navn) + "\t" + o.Dato);
+                for (int i = 1; i < o.products.Count; i++)
+                {
+                    Console.WriteLine("\t" + Utility.LengthenString(o.products[i].Navn));
+                }
+                Console.WriteLine();
             }
         }
 
