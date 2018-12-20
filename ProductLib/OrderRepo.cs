@@ -143,5 +143,32 @@ namespace ProductLib
                 throw new SqlConnectionException();
             }
         }
+
+        public bool FinishOrder(int id)
+        {
+            try
+            {
+                using (SqlConnection connection = GetDatabaseConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand("spOrderStateChange", connection))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@ID", SqlDbType.Int).Value = id;
+
+                        connection.Open();
+
+                        int countRowsAffected = cmd.ExecuteNonQuery();
+                        if (countRowsAffected == 0) return false;
+                        Order order = GetOrder(id);
+                        order.Aktiv = false;
+                        return true;
+                    }
+                }
+            }
+            catch (SqlException)
+            {
+                throw new SqlConnectionException();
+            }
+        }
     }
 }

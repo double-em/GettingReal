@@ -10,7 +10,7 @@ namespace ProductLib
     {
         public List<ProductType> products = new List<ProductType>();
         public int OrderId { get; }
-        public bool Aktiv { get; }
+        public bool Aktiv { get; set; }
 
         public string Dato { get; }
 

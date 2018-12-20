@@ -73,5 +73,10 @@ namespace GettingReal
         {
             return orders.orders;
         }
+
+        public bool FinishOrder(int id)
+        {
+            return orders.FinishOrder(id);
+        }
     }
 }

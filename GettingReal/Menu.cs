@@ -83,6 +83,7 @@ namespace GettingReal
                 Console.WriteLine("Per Olsen Automobiler - Bestilling\n");
                 Console.WriteLine("\t1. Indskriv bestilt produkt");
                 Console.WriteLine("\t2. Se aktive ordre");
+                Console.WriteLine("\t3. Afslut ordre");
                 Console.WriteLine("\n\t0. Tilbage");
                 Console.Write("\nVælg et punkt fra menuen: ");
                 string choice = Console.ReadLine();
@@ -95,6 +96,12 @@ namespace GettingReal
 
                     case "2":
                         ActiveOrders();
+                        Console.WriteLine("\nTryk på en knap for at vende tilbage...");
+                        Console.ReadKey(true);
+                        break;
+
+                    case "3":
+                        FinishOrder();
                         Console.WriteLine("\nTryk på en knap for at vende tilbage...");
                         Console.ReadKey(true);
                         break;
@@ -195,12 +202,34 @@ namespace GettingReal
             List<Order> orders = control.GetOrders();
             foreach (Order o in orders)
             {
-                Console.WriteLine(o.OrderId + "\t" + Utility.LengthenString(o.products[0].Navn) + "\t" + o.Dato);
-                for (int i = 1; i < o.products.Count; i++)
+                if (o.Aktiv)
                 {
-                    Console.WriteLine("\t" + Utility.LengthenString(o.products[i].Navn));
+                    Console.WriteLine(o.OrderId + "\t" + Utility.LengthenString(o.products[0].Navn) + "\t" + o.Dato);
+                    for (int i = 1; i < o.products.Count; i++)
+                    {
+                        Console.WriteLine("\t" + Utility.LengthenString(o.products[i].Navn));
+                    }
+                    Console.WriteLine();
                 }
-                Console.WriteLine();
+            }
+        }
+
+        void FinishOrder()
+        {
+            ActiveOrders();
+            Console.Write("Skriv ID'et på ordren der skal afsluttes(0 for tilbage): ");
+            string orderId = Console.ReadLine();
+            bool idParse = int.TryParse(orderId, out int id);
+            if (idParse && id != 0)
+            {
+                if (control.FinishOrder(id))
+                {
+                    Console.WriteLine("\nOrdren " + id + " blev afsluttet");
+                }
+                else
+                {
+                    Console.WriteLine("\nOrdren " + id + " kunne ikke Afsluttes");
+                }
             }
         }
 
@@ -236,7 +265,7 @@ namespace GettingReal
             string idTemp = Console.ReadLine();
             int.TryParse(idTemp, out int id);
 
-            Console.Write("Er du sikker på at produktet med ID: " + id + " skal fjernes? (Y/N)");
+            Console.Write("Er du sikker på at produktet med ID: " + id + " skal fjernes? (Y/N): ");
             string yesNo = Console.ReadLine().ToLower();
 
             if (yesNo == "y")
