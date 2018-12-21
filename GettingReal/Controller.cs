@@ -10,8 +10,8 @@ namespace GettingReal
 {
     public class Controller
     {
-        private ProductRepo products;
-        private OrderRepo orders;
+        ProductRepo products;
+        OrderRepo orders;
 
         public Controller()
         {
@@ -38,28 +38,28 @@ namespace GettingReal
             }
         }
 
-        internal void CreateProduct(string productName, int amount, string placement)
+        public void CreateProduct(string productName, int amount, string placement)
         {
             products.CreateProduct(productName, amount, placement);
         }
 
-        internal List<ProductType> GetAllProducts()
+        public List<ProductType> GetAllProducts()
         {
             return products.products;
         }
 
-        internal bool RemoveProduct(int id)
+        public bool RemoveProduct(int id)
         {
             return products.RemoveProduct(id);
         }
 
-        internal bool ProductOrdered(int productId, int orderNumber, string date)
+        public bool ProductOrdered(int productId, int orderNumber, string date)
         {
             ProductType product = products.GetProduct(productId);
             return orders.ProductOrdered(product, orderNumber, date);
         }
 
-        internal bool UpdateNumberOfProducts(int id, int amount)
+        public bool UpdateNumberOfProducts(int id, int amount)
         {
             return products.UpdateNumberOfProducts(id, amount);
         }

@@ -17,7 +17,7 @@ namespace ProductLib
             Setup();
         }
 
-        private void Setup()
+        void Setup()
         {
             var allProducts = GetAllProducts();
             foreach (List<string> product in allProducts)

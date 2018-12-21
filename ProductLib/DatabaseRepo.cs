@@ -9,7 +9,7 @@ namespace ProductLib
 {
     public class DatabaseRepo
     {
-        private readonly string connectionString;
+        readonly string connectionString;
 
         public DatabaseRepo()
         {

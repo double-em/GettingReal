@@ -10,7 +10,7 @@ namespace GettingReal
 {
     public class Menu
     {
-        private Controller control;
+        Controller control;
         public Menu()
         {
             Console.WriteLine("Sætter op...");
@@ -347,7 +347,7 @@ namespace GettingReal
             Console.ReadKey(true);
         }
 
-        private void SearchProducts()
+        void SearchProducts()
         {
             string searched = "Ingenting";
 

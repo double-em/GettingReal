@@ -36,7 +36,7 @@ namespace ProductLib
 
         }
 
-        private List<ProductType> GetProductsRelatedToOrder(int orderId, List<ProductType> productsList)
+        List<ProductType> GetProductsRelatedToOrder(int orderId, List<ProductType> productsList)
         {
             try
             {
